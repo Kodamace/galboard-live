@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
 
+#libraries
+Chakra-ui
+Chakra icons
+styled-components
+
+### `Don't forget to run an npm i and if there are any modules missing install them ;)`
+
+### `Redux tool-kit was used with react 18 to acheive the goals`
+
 ## Available Scripts
 
 In the project directory, you can run:
