@@ -86,24 +86,27 @@ export const galtonBoardSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     dropBallToBucket: (state) => {
+      const currentGaltonBoardSection = state.galtonBoarSections[0];
       let weights: number[] = getGaltonBoardProbabilityWeights(buckets);
       const probabilityIndex = getBucketIndexByProbability(
         state.galtonBoarSections[0].buckets.length,
         weights
       );
 
-      if (state.galtonBoarSections[0].totalBallsToDrop === 0) return;
+      if (currentGaltonBoardSection.totalBallsToDrop === 0) return;
       if (
-        (state.galtonBoarSections[0].buckets[probabilityIndex].balls /
+        (currentGaltonBoardSection.buckets[probabilityIndex].balls /
           TOTAL_BALLS) *
           100 ===
         100
       )
         return;
-      state.galtonBoarSections[0].buckets[probabilityIndex].balls =
-        state.galtonBoarSections[0].buckets[probabilityIndex].balls + 1;
-      state.galtonBoarSections[0].totalBallsToDrop =
-        state.galtonBoarSections[0].totalBallsToDrop - 1;
+      const currentGaltonBoardSectionBucketToUpdate =
+        currentGaltonBoardSection.buckets[probabilityIndex];
+      currentGaltonBoardSectionBucketToUpdate.balls =
+        currentGaltonBoardSectionBucketToUpdate.balls + 1;
+      currentGaltonBoardSection.totalBallsToDrop =
+        currentGaltonBoardSection.totalBallsToDrop - 1;
     },
     addNewGaltonBoardSection: (state, action) => {
       const newSectionExists =
