@@ -46,7 +46,7 @@ const initialState: GaltonBoardInitialState = {
   status: "idle",
 };
 
-const getGaltonBoardProbabilityWeights = (buckets: IGaltonBucket[]) => {
+export const getGaltonBoardProbabilityWeights = (buckets: IGaltonBucket[]) => {
   const end = buckets.length - 1;
   const center = end / 2;
   const probabilityMap = [];
@@ -68,7 +68,7 @@ const getGaltonBoardProbabilityWeights = (buckets: IGaltonBucket[]) => {
   return probabilityMap;
 };
 
-const getBucketIndexByProbability = (
+export const getBucketIndexByProbability = (
   totalBuckets: number,
   weights: number[]
 ) => {
@@ -114,10 +114,8 @@ export const galtonBoardSlice = createSlice({
         return;
       const currentGaltonBoardSectionBucketToUpdate =
         currentGaltonBoardSection.buckets[probabilityIndex];
-      currentGaltonBoardSectionBucketToUpdate.balls =
-        currentGaltonBoardSectionBucketToUpdate.balls + 1;
-      currentGaltonBoardSection.totalBallsToDrop =
-        currentGaltonBoardSection.totalBallsToDrop - 1;
+      currentGaltonBoardSectionBucketToUpdate.balls += 1;
+      currentGaltonBoardSection.totalBallsToDrop -= 1;
     },
     addNewGaltonBoardSection: (state, action) => {
       const newSectionExists =
@@ -160,10 +158,8 @@ export const galtonBoardSlice = createSlice({
         100
       )
         return;
-      newGaltonBoardSection.buckets[probabilityIndex].balls =
-        newGaltonBoardSection.buckets[probabilityIndex].balls + 1;
-      newGaltonBoardSection.totalBallsToDrop =
-        newGaltonBoardSection.totalBallsToDrop - 1;
+      newGaltonBoardSection.buckets[probabilityIndex].balls += 1;
+      newGaltonBoardSection.totalBallsToDrop -= 1;
     },
     saveHistogramOfFirstGaltonBoard: (state) => {
       state.histogramOfFirstGaltonBoard = state.galtonBoarSections[0];

@@ -25,6 +25,7 @@ const Bucket: React.FC<IBucket> = ({
   indexOfBucketToDropBalls,
 }) => {
   const dispatch = useAppDispatch();
+
   const percentage = ((balls / TOTAL_BALLS) * 100).toFixed(2);
 
   const dropBall = async () => {
