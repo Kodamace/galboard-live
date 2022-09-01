@@ -34,7 +34,6 @@ const GaltonBoard: React.FC<IGaltonBoard> = () => {
 
   const startFirstGaltonBoardSection = async () => {
     setIsLoading(true);
-
     await Promise.all(
       Array(TOTAL_BALLS)
         .fill({})

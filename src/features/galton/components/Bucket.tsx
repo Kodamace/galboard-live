@@ -27,27 +27,27 @@ const Bucket: React.FC<IBucket> = ({
   const dispatch = useAppDispatch();
   const percentage = ((balls / TOTAL_BALLS) * 100).toFixed(2);
 
-  const dropBall = () => {
-    // await new Promise((res, rej) =>
-    setTimeout(() => {
-      dispatch(
-        dropBallFromBucketToNewGaltonBoardSection({
-          indexOfSection,
-          indexOfBucketToDropBalls,
-        })
-      );
-    }, 1);
-    // );
+  const dropBall = async () => {
+    await new Promise((res, rej) =>
+      setTimeout(() => {
+        dispatch(
+          dropBallFromBucketToNewGaltonBoardSection({
+            indexOfSection,
+            indexOfBucketToDropBalls,
+          })
+        );
+      }, 1)
+    );
   };
 
-  const dropAllBallsFromBucket = () => {
-    Array(TOTAL_BALLS)
+  const dropAllBallsFromBucket = async () => {
+    const promiseArray = Array(TOTAL_BALLS)
       .fill({})
-      .map(() => {
-        dropBall();
+      .map(async () => {
+        await dropBall();
       });
 
-    // await Promise.all(promiseArray);
+    await Promise.all(promiseArray);
   };
   return (
     <StyledBucketWrapper>

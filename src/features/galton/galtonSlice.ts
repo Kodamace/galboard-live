@@ -17,7 +17,18 @@ export interface GaltonBoardInitialState {
   status: "idle" | "loading" | "failed";
 }
 
-const buckets: IGaltonBucket[] = new Array(10).fill({ balls: 0 });
+const buckets: IGaltonBucket[] = [
+  { balls: 0 },
+  { balls: 0 },
+  { balls: 0 },
+  { balls: 0 },
+  { balls: 0 },
+  { balls: 0 },
+  { balls: 0 },
+  { balls: 0 },
+  { balls: 0 },
+  { balls: 0 },
+];
 
 const initialState: GaltonBoardInitialState = {
   galtonBoarSections: [
