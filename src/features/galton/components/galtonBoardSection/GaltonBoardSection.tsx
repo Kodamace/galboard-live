@@ -3,7 +3,7 @@ import { Heading } from "@chakra-ui/react";
 import { TOTAL_BALLS } from "../../../../global/constants";
 import { IGaltonBoardSection } from "../../galtonSlice";
 import { StyledBucketsWrapper } from "../../styles";
-import Bucket from "../Bucket";
+import Bucket from "./Bucket";
 
 const GaltonBoardSection: React.FC<{
   data: IGaltonBoardSection;

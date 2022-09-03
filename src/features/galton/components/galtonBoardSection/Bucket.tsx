@@ -1,17 +1,17 @@
 import { SpinnerIcon } from "@chakra-ui/icons";
 import React from "react";
-import { useAppDispatch } from "../../../app/hooks";
-import { TOTAL_BALLS } from "../../../global/constants";
+import { useAppDispatch } from "../../../../app/hooks";
+import { TOTAL_BALLS } from "../../../../global/constants";
 import {
   addNewGaltonBoardSection,
   dropBallFromBucketToNewGaltonBoardSection,
-} from "../galtonSlice";
+} from "../../galtonSlice";
 import {
   FillProgress,
   StyledBucket,
   StyledBucketWrapper,
   StyledInnerBucketContent,
-} from "../styles";
+} from "../../styles";
 
 interface IBucket {
   balls: number;
@@ -31,29 +31,26 @@ const Bucket: React.FC<IBucket> = ({
   const dropBall = async () => {
     await new Promise((res, rej) =>
       setTimeout(() => {
-        dispatch(
-          dropBallFromBucketToNewGaltonBoardSection({
-            indexOfSection,
-            indexOfBucketToDropBalls,
-          })
-        );
+        res(1);
       }, 1)
     );
   };
 
   const dropAllBallsFromBucket = async () => {
-    const promiseArray = Array(TOTAL_BALLS)
-      .fill({})
-      .map(async () => {
-        await dropBall();
-      });
-
-    await Promise.all(promiseArray);
+    for (let i = 0; i < balls; i++) {
+      await dropBall();
+      dispatch(
+        dropBallFromBucketToNewGaltonBoardSection({
+          indexOfSection,
+          indexOfBucketToDropBalls,
+        })
+      );
+    }
   };
   return (
     <StyledBucketWrapper>
       <StyledBucket
-        onClick={() => {
+        onClick={async () => {
           if (balls === 0) return;
           dispatch(
             addNewGaltonBoardSection({
