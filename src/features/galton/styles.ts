@@ -18,8 +18,11 @@ export const StyledBucketWrapper = styled.div`
   align-items: center;
 `;
 
-export const StyledBucket = styled.div`
-  height: 300px;
+export const StyledBucket = styled.div<{
+  showBallsMode: boolean;
+  height: number;
+}>`
+  height: ${({ height }) => height}px;
   width: 100px;
   border: 1px solid;
   display: flex;
@@ -35,7 +38,7 @@ export const StyledBucket = styled.div`
 `;
 
 export const FillProgress = styled.div<{ percentage: number }>`
-  height: ${({ percentage }) => percentage}%;
+  height: ${({ percentage }) => percentage}px;
   width: 100%;
   border-collapse: collapse;
   background-color: purple;

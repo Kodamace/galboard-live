@@ -130,6 +130,7 @@ export const galtonBoardSlice = createSlice({
       ) {
         state.histogramOfFirstGaltonBoard.status = LOADING_STATES.idle;
         state.histogramOfFirstGaltonBoard = currentGaltonBoardSection;
+        return;
       }
     },
     addNewGaltonBoardSection: (state, action) => {
