@@ -6,15 +6,23 @@ export interface IGaltonBucket {
   balls: number;
 }
 
+export type LoadingStates = "idle" | "loading" | "failed";
+
+export enum LOADING_STATES {
+  idle = "idle",
+  loading = "loading",
+  failed = "failed",
+}
+
 export interface IGaltonBoardSection {
   buckets: IGaltonBucket[];
   totalBallsToDrop: number;
-  status: "idle" | "loading" | "failed";
+  status: LoadingStates;
 }
 export interface GaltonBoardInitialState {
   galtonBoarSections: IGaltonBoardSection[];
   histogramOfFirstGaltonBoard: IGaltonBoardSection;
-  status: "idle" | "loading" | "failed";
+  status: LoadingStates;
 }
 
 const buckets: IGaltonBucket[] = [
@@ -35,15 +43,15 @@ const initialState: GaltonBoardInitialState = {
     {
       buckets,
       totalBallsToDrop: TOTAL_BALLS,
-      status: "idle",
+      status: LOADING_STATES.idle,
     },
   ],
   histogramOfFirstGaltonBoard: {
     buckets: [],
     totalBallsToDrop: 0,
-    status: "idle",
+    status: LOADING_STATES.idle,
   },
-  status: "idle",
+  status: LOADING_STATES.idle,
 };
 
 export const getGaltonBoardProbabilityWeights = (buckets: IGaltonBucket[]) => {
@@ -96,14 +104,24 @@ export const galtonBoardSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    dropBallToBucket: (state) => {
+    dropBallForFirstHistoGramToBucket: (state) => {
+      state.histogramOfFirstGaltonBoard.status = LOADING_STATES.loading;
       const currentGaltonBoardSection = state.galtonBoarSections[0];
+      const totalBallsInCurrentSection =
+        currentGaltonBoardSection.buckets.reduce(
+          (balls, bucket) => (balls += bucket.balls),
+          1
+        );
       let weights: number[] = getGaltonBoardProbabilityWeights(buckets);
       const probabilityIndex = getBucketIndexByProbability(
         state.galtonBoarSections[0].buckets.length,
         weights
       );
-
+      console.log(JSON.stringify(currentGaltonBoardSection));
+      if (totalBallsInCurrentSection === TOTAL_BALLS) {
+        state.histogramOfFirstGaltonBoard.status = LOADING_STATES.idle;
+        state.histogramOfFirstGaltonBoard = currentGaltonBoardSection;
+      }
       if (currentGaltonBoardSection.totalBallsToDrop === 0) return;
       if (
         (currentGaltonBoardSection.buckets[probabilityIndex].balls /
@@ -112,6 +130,7 @@ export const galtonBoardSlice = createSlice({
         100
       )
         return;
+
       const currentGaltonBoardSectionBucketToUpdate =
         currentGaltonBoardSection.buckets[probabilityIndex];
       currentGaltonBoardSectionBucketToUpdate.balls += 1;
@@ -125,7 +144,7 @@ export const galtonBoardSlice = createSlice({
       const newGaltonBoardSection: IGaltonBoardSection = {
         buckets,
         totalBallsToDrop: action.payload.bucketsBalls,
-        status: "idle",
+        status: LOADING_STATES.idle,
       };
 
       state.galtonBoarSections = [
@@ -171,7 +190,7 @@ export const galtonBoardSlice = createSlice({
 });
 
 export const {
-  dropBallToBucket,
+  dropBallForFirstHistoGramToBucket,
   addNewGaltonBoardSection,
   dropBallFromBucketToNewGaltonBoardSection,
   saveHistogramOfFirstGaltonBoard,
