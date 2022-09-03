@@ -117,24 +117,20 @@ export const galtonBoardSlice = createSlice({
         state.galtonBoarSections[0].buckets.length,
         weights
       );
-      console.log(JSON.stringify(currentGaltonBoardSection));
-      if (totalBallsInCurrentSection === TOTAL_BALLS) {
-        state.histogramOfFirstGaltonBoard.status = LOADING_STATES.idle;
-        state.histogramOfFirstGaltonBoard = currentGaltonBoardSection;
-      }
+
       if (currentGaltonBoardSection.totalBallsToDrop === 0) return;
-      if (
-        (currentGaltonBoardSection.buckets[probabilityIndex].balls /
-          TOTAL_BALLS) *
-          100 ===
-        100
-      )
-        return;
 
       const currentGaltonBoardSectionBucketToUpdate =
         currentGaltonBoardSection.buckets[probabilityIndex];
       currentGaltonBoardSectionBucketToUpdate.balls += 1;
       currentGaltonBoardSection.totalBallsToDrop -= 1;
+      if (
+        totalBallsInCurrentSection === TOTAL_BALLS ||
+        currentGaltonBoardSection.totalBallsToDrop === 0
+      ) {
+        state.histogramOfFirstGaltonBoard.status = LOADING_STATES.idle;
+        state.histogramOfFirstGaltonBoard = currentGaltonBoardSection;
+      }
     },
     addNewGaltonBoardSection: (state, action) => {
       const newSectionExists =
