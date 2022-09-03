@@ -17,12 +17,16 @@ interface IBucket {
   balls: number;
   indexOfSection: number;
   indexOfBucketToDropBalls: number;
+  showBallsMode: any;
+  ballSize: number;
 }
 
 const Bucket: React.FC<IBucket> = ({
   balls,
   indexOfSection,
   indexOfBucketToDropBalls,
+  showBallsMode,
+  ballSize,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -36,7 +40,7 @@ const Bucket: React.FC<IBucket> = ({
     );
   };
 
-  const dropAllBallsFromBucket = async () => {
+  async function dropAllBallsFromBucket() {
     for (let i = 0; i < balls; i++) {
       await dropBall();
       dispatch(
@@ -46,10 +50,17 @@ const Bucket: React.FC<IBucket> = ({
         })
       );
     }
-  };
+  }
+  const bucketHeight = showBallsMode ? (TOTAL_BALLS / 100) * 2 : 240;
+  const ballsView = Math.floor(ballSize === 5 ? balls : balls / (ballSize / 2));
+  const bucketHeightPercentage = showBallsMode
+    ? (balls / bucketHeight) * ballSize
+    : (balls / (bucketHeight * 5)) * 100;
   return (
     <StyledBucketWrapper>
       <StyledBucket
+        height={bucketHeight}
+        showBallsMode={showBallsMode}
         onClick={async () => {
           if (balls === 0) return;
           dispatch(
@@ -62,10 +73,36 @@ const Bucket: React.FC<IBucket> = ({
         }}
       >
         <StyledInnerBucketContent>
-          <div>
+          <div style={{ position: "sticky", top: 0 }}>
             <SpinnerIcon /> {balls}
           </div>
-          <FillProgress percentage={parseInt(percentage)} />
+          {!showBallsMode && (
+            <FillProgress percentage={bucketHeightPercentage} />
+          )}
+          <div
+            style={{
+              width: "150px",
+              display: "flex",
+              flexWrap: "wrap-reverse",
+            }}
+          >
+            {showBallsMode && (
+              <>
+                {Array(ballsView)
+                  .fill(
+                    <span
+                      style={{
+                        width: ballSize,
+                        height: ballSize,
+                        backgroundColor: "purple",
+                        borderRadius: 33,
+                      }}
+                    />
+                  )
+                  .map((ball) => ball)}
+              </>
+            )}
+          </div>
         </StyledInnerBucketContent>
       </StyledBucket>
       {percentage} %

@@ -8,7 +8,9 @@ import Bucket from "./Bucket";
 const GaltonBoardSection: React.FC<{
   data: IGaltonBoardSection;
   galtonBoardIndex: number;
-}> = ({ data, galtonBoardIndex }) => {
+  showBallsMode: any;
+  ballSize: number;
+}> = ({ data, galtonBoardIndex, showBallsMode, ballSize }) => {
   const { buckets, totalBallsToDrop } = data;
 
   return (
@@ -26,6 +28,8 @@ const GaltonBoardSection: React.FC<{
             indexOfBucketToDropBalls={i}
             key={i}
             balls={balls}
+            showBallsMode={showBallsMode}
+            ballSize={ballSize}
           />
         ))}
       </StyledBucketsWrapper>
