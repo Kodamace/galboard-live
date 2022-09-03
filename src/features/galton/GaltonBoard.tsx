@@ -5,6 +5,7 @@ import {
   dropBallForFirstHistoGramToBucket,
   getGaltonBoardSections,
   getHistogramOfFirstGaltonBoardSection,
+  LOADING_STATES,
 } from "./galtonSlice";
 import { StyledGaltonBoardWrapper } from "./styles";
 import { TOTAL_BALLS } from "../../global/constants";
@@ -48,7 +49,7 @@ const GaltonBoard: React.FC<IGaltonBoard> = () => {
   return (
     <StyledGaltonBoardWrapper>
       <Heading>Galton Board Stack</Heading>
-      {histogramOfFirstGaltonBoard.status === "loading" && (
+      {histogramOfFirstGaltonBoard.status === LOADING_STATES.loading && (
         <>
           <Spinner
             thickness="4px"
@@ -60,7 +61,7 @@ const GaltonBoard: React.FC<IGaltonBoard> = () => {
           <Heading>Loading histogram...</Heading>
         </>
       )}
-      {histogramOfFirstGaltonBoard.status !== "loading" && (
+      {histogramOfFirstGaltonBoard.status !== LOADING_STATES.loading && (
         <Histogram histogramOfFirstGaltonBoard={histogramOfFirstGaltonBoard} />
       )}
       {galtonBoardSections.map((galtonBoardSection, galtonBoardIndex) => {
