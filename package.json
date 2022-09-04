@@ -2,6 +2,7 @@
   "name": "g-board",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://Kodamace.github.io/galboard",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.9",
     "@chakra-ui/react": "^2.3.1",
@@ -16,7 +17,6 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "framer-motion": "^7.2.1",
-    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "gh-pages": "^4.0.0"
   }
 }
